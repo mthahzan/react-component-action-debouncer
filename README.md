@@ -20,7 +20,7 @@ I got tired of testers rapidly pressing buttons and claiming they "broke" the ap
 import Debouncer from 'react-component-action-debouncer';
 import {SingleActionCustomComponent} from '<component/path>';
 
-const DebouncedSingleActionCustomComponent = Debouncer(TouchableOpacity, 'onAction');
+const DebouncedSingleActionCustomComponent = Debouncer(SingleActionCustomComponent, 'onAction');
 
 // When rendering use the enhanced component
 <DebouncedSingleActionCustomComponent onAction={this.handleAction} />
