@@ -4,6 +4,10 @@ This is a higher order component that can enhance any React component with a deb
 
 **NOTE** - This is intended to debounce component action handlers. This is NOT suitable to debounced search on inputs. See [usages](#usage) section for example usages.
 
+## Inspiration
+
+I got tired of testers rapidly pressing buttons and claim they "broke" the app. So I created this debouncer to clean out erratic presses without glitching the UI.
+
 ## Installation
 
 `yarn add react-component-action-debouncer` or `npm i react-component-action-debouncer --save`
@@ -13,35 +17,38 @@ This is a higher order component that can enhance any React component with a deb
 ### Simple usage
 
 ```jsx
-import {TouchableOpacity, Text} from 'react-native';
 import Debouncer from 'react-component-action-debouncer';
+import {SingleActionCustomComponent} from '<component/path>';
 
-const DebouncedTouchableOpacity = Debouncer(TouchableOpacity, {propTypesToDebounce: 'onPress'});
+const DebouncedSingleActionCustomComponent = Debouncer(TouchableOpacity, 'onPress');
 
 // When rendering use the enhanced component
-<DebouncedTouchableOpacity onPress={this.handlePress}>
-  <Text>
-    Action Button
-  </Text>
-</DebouncedTouchableOpacity>
+<DebouncedSingleActionCustomComponent onAction={this.handleAction} />
 ```
 
 ### Advanced usage
 
-If you want to debounce multiple actions of the same component, you can do the following.
+If you want more control over the debounce effect (debounce multiple actions of the same component or change the duration), you can do the following.
 
 ```jsx
 import Debouncer from 'react-component-action-debouncer';
-import {MultiActionCustomComponent} from '<package/path>';
+import {SingleActionCustomComponent, MultiActionCustomComponent} from '<component/path>';
 
-const config = {
+const singleActionConfig = {
+  duration: 800,
+  type: Debouncer.TYPE.TRAILING_EDGE,
+  propTypesToDebounce: 'onAction',
+};
+const DebouncedSingleActionCustomComponent = Debouncer(SingleActionCustomComponent, singleActionConfig);
+const multiActionConfig = {
   duration: 500,
   type: Debouncer.TYPE.LEADING_EDGE,
   propTypesToDebounce: ['onActionOne', 'onActionTwo', 'onActionThree'],
 };
-const DebouncedMultiActionCustomComponent = Debouncer(TouchableOpacity, config);
+const DebouncedMultiActionCustomComponent = Debouncer(MultiActionCustomComponent, multiActionConfig);
 
-// When rendering use the enhanced component
+// When rendering use the enhanced components
+<DebouncedSingleActionCustomComponent onAction={this.handleAction} />
 <DebouncedMultiActionCustomComponent
   onActionOne={this.handleActionOne}
   onActionTwo={this.handleActionTwo}
@@ -51,14 +58,23 @@ const DebouncedMultiActionCustomComponent = Debouncer(TouchableOpacity, config);
 
 ## Config
 
-1. `duration` - Duration in milliseconds.  **(DEFAULT: 1000)**
-   - You can configure the duration of the debounce effect.
+If you want a simple debounce effect on one action handler of a component, config can be the action name. See [simple usage](#simple-usage).
+Or config can be an object with the following properties which gives you better control of the debounce effect.
 
-2. `type` - Type of debounce. **(DEFAULT: Leading Edge)**
-   - There are two types of debounces. `Leading Edge` and `Trailing Edge`
-   - `Leading Edge` will execute the action and block subsequent executions until the given duration elapses.
-   - `Trailing Edge` will execute the action after waiting for the given duration.
-   - You can select either from `Debouncer.TYPE.LEADING_EDGE` or `Debouncer.TYPE.TRAILING_EDGE`
+```
+{
+  // ** REQUIRED **
+  // The prop names to intercept and add debounce effect
+  // Can be a string (for single action) or an array of strins (for multiple actions)
+  propTypesToDebounce: string | Array<string>,
 
-3. `propTypesToDebounce` - The props to intercept and debounce. **Required**
-   - This can be a string or an array of strings. See above [usages](#usage) for more details.
+  // Debounce duration in milliseconds (DEFAULT: 1000)
+  duration: number,
+
+  // Type of debounce (Default: Debouncer.TYPE.TRAILING_EDGE)
+  // We support two types of debounces. Leading Edge and Trailing Edge
+  // `Leading Edge` will execute the action and block subsequent executions until the given `duration` elapses.
+  // `Trailing Edge` will execute the action after waiting for the `duration` to elapse.
+  type: Debouncer.TYPE.TRAILING_EDGE | Debouncer.TYPE.LEADING_EDGE,
+}
+```

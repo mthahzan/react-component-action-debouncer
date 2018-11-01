@@ -52,9 +52,17 @@ const Debouncer = (WrappedComponent: ComponentType<any>, config: DebouncerConfig
         throw new Error(`Config is required. Received null or undefined`);
       }
 
-      // Props to be debounced is required
-      if (!config.propTypesToDebounce) {
-        throw new Error('`propTypesToDebounce` is required. Received null or undefined');
+      // Check if the config is a string (=> single action debounce) or an object (usually a multi action debounce)
+      if (typeof config === 'string') {
+        // Do we need to validate this case??
+      } else if (typeof config === 'object') {
+        // Props to be debounced is required
+        if (!config.propTypesToDebounce) {
+          throw new Error('`propTypesToDebounce` is required. Received null or undefined');
+        }
+      } else {
+        // We don't accept any other type
+        throw new Error('`Config` must be either an object or a string');
       }
     }
 
@@ -69,9 +77,9 @@ const Debouncer = (WrappedComponent: ComponentType<any>, config: DebouncerConfig
       // We can't debounce anything if we aren't given the required configurations
       this.validateConfig(config);
 
-      // We have to make sure we are always deal with an array
+      // We have to make sure we are always dealing with an array
       // Otherwise it'll be an ugly mess of if-else conditions
-      const combinedPropTypesToDebounce = [].concat(config.propTypesToDebounce);
+      const combinedPropTypesToDebounce = typeof config === 'string' ? [config] : [].concat(config.propTypesToDebounce);
 
       combinedPropTypesToDebounce.forEach((propTypeToDebounce: string) => {
         // Filling up the dynamic prop handlers with initial data
@@ -87,6 +95,11 @@ const Debouncer = (WrappedComponent: ComponentType<any>, config: DebouncerConfig
       // Make sure the property is available and it is an executable function
       if (propAction && typeof propAction === 'function') {
         propAction(...restOfArgs); // Call function with rest of arguments
+      }
+
+      if (typeof propAction !== 'function') {
+        // eslint-disable-next-line no-console
+        console.warn(`'${propAction}' is not a function. Skipping.`);
       }
     }
 
@@ -172,7 +185,7 @@ const Debouncer = (WrappedComponent: ComponentType<any>, config: DebouncerConfig
 
 Debouncer.TYPE = TYPES;
 
-export type DebouncerConfig = {
+export type DebouncerConfig = string | {
   duration?: number,
   propTypesToDebounce: Array<string> | string,
   type?: 'leading' | 'trailing',
