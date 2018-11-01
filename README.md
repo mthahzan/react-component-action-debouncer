@@ -2,7 +2,7 @@
 
 This is a higher order component that can enhance any React component with a debounce effect on it's action handlers.
 
-**NOTE** - This is intended to debounce component action handlers. This is NOT suitable to debounced search on inputs. See [usages](#usage) section for example usages.
+**NOTE** - This is intended to debounce component action handlers. This is NOT suitable to something like a debounced search on input change. See [usages](#usage) section for example usages.
 
 ## Inspiration
 
@@ -78,3 +78,6 @@ Or config can be an object with the following properties which gives you better 
   type: Debouncer.TYPE.TRAILING_EDGE | Debouncer.TYPE.LEADING_EDGE,
 }
 ```
+
+### TODO
+- [ ] Write tests
