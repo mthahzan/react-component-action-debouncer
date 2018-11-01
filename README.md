@@ -12,7 +12,7 @@ This is a higher order component that can enhance any React component with a deb
 
 ### Simple usage
 
-```javascript
+```jsx
 import {TouchableOpacity, Text} from 'react-native';
 import Debouncer from 'react-component-action-debouncer';
 
@@ -30,7 +30,7 @@ const DebouncedTouchableOpacity = Debouncer(TouchableOpacity, {propTypesToDeboun
 
 If you want to debounce multiple actions of the same component, you can do the following.
 
-```javascript
+```jsx
 import Debouncer from 'react-component-action-debouncer';
 import {MultiActionCustomComponent} from '<package/path>';
 
