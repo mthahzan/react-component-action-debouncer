@@ -12,14 +12,25 @@
   },
   "keywords": [
     "ReactJS",
-    "React",
-    "Native",
+    "ReactNative",
     "Debounce"
   ],
-  "author": "Mohomed Thahzan <mthahzan@gmail.com>",
+  "author": "Thahzan Mohomed <mthahzan@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mthahzan/react-component-action-debouncer/issues"
   },
-  "homepage": "https://github.com/mthahzan/react-component-action-debouncer#readme"
+  "homepage": "https://github.com/mthahzan/react-component-action-debouncer#readme",
+  "devDependencies": {
+    "babel-eslint": "10.0.1",
+    "eslint": "5.8.0",
+    "eslint-config-google": "0.11.0",
+    "eslint-plugin-babel": "5.2.1",
+    "eslint-plugin-jest": "21.26.2",
+    "eslint-plugin-react": "7.11.1",
+    "eslint-plugin-react-native": "3.5.0"
+  },
+  "dependencies": {
+    "flow-bin": "0.75.0"
+  }
 }
