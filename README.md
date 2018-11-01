@@ -6,7 +6,7 @@ This is a higher order component that can enhance any React component with a deb
 
 ## Inspiration
 
-I got tired of testers rapidly pressing buttons and claim they "broke" the app. So I created this debouncer to clean out erratic presses without glitching the UI.
+I got tired of testers rapidly pressing buttons and claiming they "broke" the app. So I created this debouncer to clean out erratic presses without glitching the UI.
 
 ## Installation
 
