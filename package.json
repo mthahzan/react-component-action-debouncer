@@ -1,0 +1,25 @@
+{
+  "name": "react-component-action-debouncer",
+  "version": "0.0.0",
+  "description": "Debounce any component actions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mthahzan/react-component-action-debouncer.git"
+  },
+  "keywords": [
+    "ReactJS",
+    "React",
+    "Native",
+    "Debounce"
+  ],
+  "author": "Mohomed Thahzan <mthahzan@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mthahzan/react-component-action-debouncer/issues"
+  },
+  "homepage": "https://github.com/mthahzan/react-component-action-debouncer#readme"
+}
