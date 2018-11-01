@@ -1,36 +1,37 @@
 {
-  "name": "react-component-action-debouncer",
-  "version": "0.0.0",
-  "description": "Debounce any component actions",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mthahzan/react-component-action-debouncer.git"
-  },
-  "keywords": [
-    "ReactJS",
-    "ReactNative",
-    "Debounce"
-  ],
-  "author": "Thahzan Mohomed <mthahzan@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/mthahzan/react-component-action-debouncer/issues"
-  },
-  "homepage": "https://github.com/mthahzan/react-component-action-debouncer#readme",
-  "devDependencies": {
-    "babel-eslint": "10.0.1",
-    "eslint": "5.8.0",
-    "eslint-config-google": "0.11.0",
-    "eslint-plugin-babel": "5.2.1",
-    "eslint-plugin-jest": "21.26.2",
-    "eslint-plugin-react": "7.11.1",
-    "eslint-plugin-react-native": "3.5.0"
-  },
-  "dependencies": {
-    "flow-bin": "0.75.0"
-  }
+    "name": "react-component-action-debouncer",
+    "version": "0.0.0",
+    "description": "Debounce any component actions",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mthahzan/react-component-action-debouncer.git"
+    },
+    "keywords": [
+        "ReactJS",
+        "ReactNative",
+        "Debounce"
+    ],
+    "author": "Thahzan Mohomed <mthahzan@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/mthahzan/react-component-action-debouncer/issues"
+    },
+    "homepage": "https://github.com/mthahzan/react-component-action-debouncer#readme",
+    "devDependencies": {
+        "babel-eslint": "10.0.1",
+        "eslint": "5.8.0",
+        "eslint-config-google": "0.11.0",
+        "eslint-plugin-babel": "5.2.1",
+        "eslint-plugin-jest": "21.26.2",
+        "eslint-plugin-react": "7.11.1",
+        "eslint-plugin-react-native": "3.5.0",
+        "flow-bin": "0.75.0"
+    },
+    "peerDependencies": {
+        "react": "^15.0.0 | ^16.0.0"
+    }
 }
