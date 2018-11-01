@@ -2,7 +2,7 @@
 
 This is a higher order component that can enhance any React component with a debounce effect on it's action handlers.
 
-**NOTE** - This is intended to debounce component action handlers. This is NOT suitable to debounced search on inputs. See [usages](#Usage) section for example usages.
+**NOTE** - This is intended to debounce component action handlers. This is NOT suitable to debounced search on inputs. See [usages](#usage) section for example usages.
 
 ## Installation
 
@@ -61,4 +61,4 @@ const DebouncedMultiActionCustomComponent = Debouncer(TouchableOpacity, config);
    - You can select either from `Debouncer.TYPE.LEADING_EDGE` or `Debouncer.TYPE.TRAILING_EDGE`
 
 3. `propTypesToDebounce` - The props to intercept and debounce. **Required**
-   - This can be a string or an array of strings. See above [advanced usage](#Advancedusage) for more details.
+   - This can be a string or an array of strings. See above [advanced usage](#advanced-usage) for more details.
