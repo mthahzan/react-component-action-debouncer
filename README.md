@@ -61,4 +61,4 @@ const DebouncedMultiActionCustomComponent = Debouncer(TouchableOpacity, config);
    - You can select either from `Debouncer.TYPE.LEADING_EDGE` or `Debouncer.TYPE.TRAILING_EDGE`
 
 3. `propTypesToDebounce` - The props to intercept and debounce. **Required**
-   - This can be a string or an array of strings. See above [advanced usage](#advanced-usage) for more details.
+   - This can be a string or an array of strings. See above [usages](#usage) for more details.
