@@ -5,6 +5,7 @@ import type {ComponentType} from 'react';
 const TYPES = {
   LEADING_EDGE: 'leading',
   TRAILING_EDGE: 'trailing',
+  THROTTLE: 'throttle',
 };
 const DEFAULT_DURATION = 1000;
 
@@ -20,8 +21,8 @@ const Debouncer = (WrappedComponent: ComponentType<any>, config: DebouncerConfig
     constructor(props) {
       super(props);
 
-      // Fill up all dynamic handlers using the config
-      this.resolveDebounceFromConfig(config);
+      this.init();
+      this.resolveDebounceFromConfig(config); // Fill up all dynamic handlers using the config
     }
 
     componentWillUnmount() {
@@ -46,6 +47,15 @@ const Debouncer = (WrappedComponent: ComponentType<any>, config: DebouncerConfig
      */
     _timeoutActions = {}
 
+    init = (): void => {
+      // Populate debounceTypeMap
+      this._debounceTypeMap = {
+        [Debouncer.TYPE.LEADING_EDGE]: this.handleLeadingEdgeDebounce,
+        [Debouncer.TYPE.THROTTLE]: this.handleThrottle,
+        [Debouncer.TYPE.TRAILING_EDGE]: this.handleTrailingEdgeDebounce,
+      };
+    }
+
     validateConfig = (config: DebouncerConfig): void => {
       // Config is required
       if (!config) {
@@ -67,12 +77,6 @@ const Debouncer = (WrappedComponent: ComponentType<any>, config: DebouncerConfig
     }
 
     resolveDebounceFromConfig = (config: DebouncerConfig): void => {
-      // Populate debounceTypeMap
-      this._debounceTypeMap = {
-        [Debouncer.TYPE.LEADING_EDGE]: this.handleLeadingEdgeDebounce,
-        [Debouncer.TYPE.TRAILING_EDGE]: this.handleTrailingEdgeDebounce,
-      };
-
       // First we check whether we have a config.
       // We can't debounce anything if we aren't given the required configurations
       this.validateConfig(config);
@@ -104,42 +108,53 @@ const Debouncer = (WrappedComponent: ComponentType<any>, config: DebouncerConfig
     }
 
     handleLeadingEdgeDebounce = (debouncedProp: string, duration: number, ...restOfArgs: any): void => {
-      // Since this is leading edge, we execute the function now
-      this.safeExecutePropAction(debouncedProp, ...restOfArgs);
+      if (!this._blockedActions[debouncedProp]) {
+        // Since this is leading edge, we execute the function now
+        this.safeExecutePropAction(debouncedProp, ...restOfArgs);
 
-      // Let's block off any more executions and register a timeout to change it back
-      this._blockedActions[debouncedProp] = true;
-      this._timeoutActions[debouncedProp] = setTimeout(() => {
-        this._blockedActions[debouncedProp] = false;
-      }, duration);
+        // Let's block off any more executions and register a timeout to change it back
+        this._blockedActions[debouncedProp] = true;
+        this._timeoutActions[debouncedProp] = setTimeout(() => {
+          this._blockedActions[debouncedProp] = false;
+        }, duration);
+      }
+    }
+
+    handleThrottle = (debouncedProp: string, duration: number, ...restOfArgs: any): void => {
+      if (!this._blockedActions[debouncedProp]) {
+        // Let's block off any more executions and register a timeout to change it back
+        this.registerTrailingEdgeDebounce(debouncedProp, duration, ...restOfArgs);
+      }
     }
 
     handleTrailingEdgeDebounce = (debouncedProp: string, duration: number, ...restOfArgs: any): void => {
-      // Let's block off any more executions and register a timeout to change it back
+      // Reset the debounce if it exists
+      this._blockedActions[debouncedProp] && clearTimeout(this._timeoutActions[debouncedProp]);
+      this.registerTrailingEdgeDebounce(debouncedProp, duration, ...restOfArgs);
+    }
+
+    registerTrailingEdgeDebounce = (debouncedProp: string, duration: number, ...restOfArgs: any): void => {
       this._blockedActions[debouncedProp] = true;
       this._timeoutActions[debouncedProp] = setTimeout(() => {
-        // Since this is trailing edge edge, we execute the function now
+        // Timeout has passed. Let's call the function
         this.safeExecutePropAction(debouncedProp, ...restOfArgs);
         this._blockedActions[debouncedProp] = false;
       }, duration);
     }
 
     handleDebouncedEvent = (debouncedProp: string, ...restOfArgs: any): void => {
-      // Ignore if this event is already debounced and blocked
-      if (!this._blockedActions[debouncedProp]) {
-        const duration = config.duration || DEFAULT_DURATION;
-        const type = config.type || Debouncer.TYPE.LEADING_EDGE;
-        const debounceHandler = this._debounceTypeMap[type];
+      const type = config.type || Debouncer.TYPE.LEADING_EDGE;
+      const duration = config.duration || DEFAULT_DURATION;
+      const debounceHandler = this._debounceTypeMap[type];
 
-        // If the user entered an unrecognized type, debounceHandler will be null/undefined.
-        // Throw error
-        if (!debounceHandler) {
-          throw new Error(`Unrecognized \`type\` given. Must be one of ${Object.values(TYPES).toLocaleString()}`);
-        }
-
-        // Let's call the debounce handler
-        debounceHandler(debouncedProp, duration, ...restOfArgs);
+      // If the user entered an unrecognized type, debounceHandler will be null/undefined.
+      // Throw error
+      if (!debounceHandler) {
+        throw new Error(`Unrecognized \`type\` given. Must be one of ${Object.values(TYPES).toLocaleString()}`);
       }
+
+      // Let's call the debounce handler
+      debounceHandler(debouncedProp, duration, ...restOfArgs);
     }
 
     /**
@@ -188,7 +203,7 @@ Debouncer.TYPE = TYPES;
 export type DebouncerConfig = string | {
   duration?: number,
   propTypesToDebounce: Array<string> | string,
-  type?: 'leading' | 'trailing',
+  type?: 'leading' | 'trailing' | 'throttle',
 };
 
 export default Debouncer;

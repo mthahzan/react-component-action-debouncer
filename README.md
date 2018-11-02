@@ -74,8 +74,9 @@ Or config can be an object with the following properties which gives you better 
   // Type of debounce (Default: Debouncer.TYPE.LEADING_EDGE)
   // We support two types of debounces. Leading Edge and Trailing Edge
   // `Leading Edge` will execute the action and block subsequent executions until the given `duration` elapses.
-  // `Trailing Edge` will execute the action after waiting for the `duration` to elapse.
-  type: Debouncer.TYPE.LEADING_EDGE | Debouncer.TYPE.TRAILING_EDGE,
+  // `Trailing Edge` will debounce the execution each time the action happens and executes it after the `duration` passes without any more callback calls
+  // 'THROTTLE' will will execute the action after waiting for the `duration` to elapse blocking executions during this time.
+  type: Debouncer.TYPE.LEADING_EDGE | Debouncer.TYPE.TRAILING_EDGE | Debouncer.TYPE.THROTTLE,
 }
 ```
 
