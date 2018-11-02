@@ -71,11 +71,11 @@ Or config can be an object with the following properties which gives you better 
   // Debounce duration in milliseconds (DEFAULT: 1000)
   duration: number,
 
-  // Type of debounce (Default: Debouncer.TYPE.TRAILING_EDGE)
+  // Type of debounce (Default: Debouncer.TYPE.LEADING_EDGE)
   // We support two types of debounces. Leading Edge and Trailing Edge
   // `Leading Edge` will execute the action and block subsequent executions until the given `duration` elapses.
   // `Trailing Edge` will execute the action after waiting for the `duration` to elapse.
-  type: Debouncer.TYPE.TRAILING_EDGE | Debouncer.TYPE.LEADING_EDGE,
+  type: Debouncer.TYPE.LEADING_EDGE | Debouncer.TYPE.TRAILING_EDGE,
 }
 ```
 
