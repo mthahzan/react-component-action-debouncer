@@ -1,6 +1,6 @@
 {
     "name": "react-component-action-debouncer",
-    "version": "1.1.0-alpha1",
+    "version": "1.1.0",
     "description": "Debounce any component actions",
     "main": "index.js",
     "scripts": {
