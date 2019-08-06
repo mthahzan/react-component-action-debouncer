@@ -9,7 +9,7 @@ const TYPES = {
 };
 const DEFAULT_DURATION = 1000;
 
-const Debouncer = (WrappedComponent: ComponentType<any>, config: DebouncerConfig): ComponentType<any> => {
+const Debouncer = (WrappedComponent: ComponentType<any>, configuration: DebouncerConfig): ComponentType<any> => {
   type DebouncedComponentProps = {
     children?: any,
   };
@@ -22,7 +22,7 @@ const Debouncer = (WrappedComponent: ComponentType<any>, config: DebouncerConfig
       super(props);
 
       this.init();
-      this.resolveDebounceFromConfig(config); // Fill up all dynamic handlers using the config
+      this.resolveDebounceFromConfig(configuration); // Fill up all dynamic handlers using the config
     }
 
     componentWillUnmount() {
@@ -143,8 +143,8 @@ const Debouncer = (WrappedComponent: ComponentType<any>, config: DebouncerConfig
     }
 
     handleDebouncedEvent = (debouncedProp: string, ...restOfArgs: any): void => {
-      const type = config.type || Debouncer.TYPE.LEADING_EDGE;
-      const duration = config.duration || DEFAULT_DURATION;
+      const type = configuration.type || Debouncer.TYPE.LEADING_EDGE;
+      const duration = configuration.duration || DEFAULT_DURATION;
       const debounceHandler = this._debounceTypeMap[type];
 
       // If the user entered an unrecognized type, debounceHandler will be null/undefined.
